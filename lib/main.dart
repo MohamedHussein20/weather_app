@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/cubits/get_weather_cubit/get_weather_cubit.dart';
+import 'package:weather_app/cubits/get_weather_cubit/get_weather_states.dart';
 import 'package:weather_app/views/home_view.dart';
 
 void main() {
@@ -13,33 +14,30 @@ class WeatherApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GetWeatherCubit(),
-      child: const CustomMaterialApp(),
-    );
-  }
-}
-
-class CustomMaterialApp extends StatelessWidget {
-  const CustomMaterialApp({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: getThemeColor(BlocProvider.of<GetWeatherCubit>(context)
-            .weatherModel
-            ?.weatherCondition),
-        appBarTheme: AppBarTheme(
-            backgroundColor: getThemeColor(
-                BlocProvider.of<GetWeatherCubit>(context)
-                    .weatherModel
-                    ?.weatherCondition)),
+      child: Builder(
+        builder: (context) => BlocBuilder<GetWeatherCubit, WeatherState>(
+          builder: (context, state) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                primarySwatch: getThemeColor(
+                    BlocProvider.of<GetWeatherCubit>(context)
+                        .weatherModel
+                        ?.weatherCondition),
+                appBarTheme: AppBarTheme(
+                    backgroundColor: getThemeColor(
+                        BlocProvider.of<GetWeatherCubit>(context)
+                            .weatherModel
+                            ?.weatherCondition)),
+              ),
+              home: const HomeView(),
+            );
+          },
+        ),
       ),
-      home: const HomeView(),
     );
   }
+  
 }
 
 MaterialColor getThemeColor(String? condition) {

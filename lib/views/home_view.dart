@@ -20,6 +20,7 @@ class _HomeViewState extends State<HomeView> {
         appBar: AppBar(
           title: const Text(
             'Weather App',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           actions: [
             IconButton(
@@ -43,11 +44,15 @@ class _HomeViewState extends State<HomeView> {
             if (state is WeatherInitialState) {
               return const NoWeatherBody();
             } else if (state is WeatherLoadedState) {
-              return const WeatherInfoBody(
-               
+              return WeatherInfoBody(
+                weather: state.weatherModel,
               );
             } else {
-              return const Text('Oops there was an error');
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                    'Oops there was an error, Make sure that city name is spelled correctly.'),
+              );
             }
           },
         ));
