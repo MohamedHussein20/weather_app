@@ -29,11 +29,13 @@ class CustomMaterialApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: getThemeColor(BlocProvider.of<GetWeatherCubit>(context)
-            .weatherModel?.weatherCondition),
+            .weatherModel
+            ?.weatherCondition),
         appBarTheme: AppBarTheme(
             backgroundColor: getThemeColor(
                 BlocProvider.of<GetWeatherCubit>(context)
-                    .weatherModel?.weatherCondition)),
+                    .weatherModel
+                    ?.weatherCondition)),
       ),
       home: const HomeView(),
     );
@@ -41,10 +43,10 @@ class CustomMaterialApp extends StatelessWidget {
 }
 
 MaterialColor getThemeColor(String? condition) {
-  if (condition == null) {
+  if (condition?.toLowerCase() == null) {
     return Colors.blue;
   }
-  switch (condition) {
+  switch (condition?.toLowerCase()) {
     case 'sunny':
       return Colors.orange;
     case 'clear':
